@@ -1,27 +1,22 @@
-from requests_oauthlib import OAuth2Session
+import requests
 
-client_id = 'lOP4bqI9d5OOTWYIoeDjLFv6xKBu9vU7ppPCMtOs'
-client_secret = 'pbkdf2_sha256$720000$LPjqLaK18loBjoDDTzk1EX$Q+/Kl592Yb/li9ja2nJGl9BZW9Hef0s/+rn1rIpcc1w='
-authorization_base_url = 'http://localhost:8000/o/authorize/'
-token_url = 'http://localhost:8000/o/token/'
+# Replace <API_URL> with the URL of the API endpoint
+api_url = "http://localhost:8000/myapp/api_protected/"
 
-# Create an OAuth2Session instance
-oauth = OAuth2Session(client_id)
+# Replace <your_token> with your actual token
+token = "9dFVe1uZPpy6W4NMxDyUBU8KcVTXZm"
 
-# Step 1: Redirect user to the OAuth provider to get the authorization code
-authorization_url, state = oauth.authorization_url(authorization_base_url)
-print('Please go to {} and authorize access.'.format(authorization_url))
+# Create the headers with the Authorization Bearer token
+headers = {
+    "Authorization": f"Bearer {token}"
+}
 
-# Step 2: Get the authorization verifier code from the callback URL
-redirect_response = input('Paste the full redirect URL here: ')
+# Send the GET request
+response = requests.get(api_url, headers=headers)
 
-# Step 3: Fetch the access token
-token = oauth.fetch_token(
-    token_url,
-    authorization_response=redirect_response,
-    client_secret=client_secret
-)
-
-# Step 4: Access a protected resource
-response = oauth.get('http://localhost:8000/myapp/api/protected/')
-print(response.json())
+# Check if the request was successful
+if response.status_code == 200:
+    print("Response:", response.json())
+else:
+    print(f"Failed to fetch data. Status code: {response.status_code}")
+    print("Response:", response.text)

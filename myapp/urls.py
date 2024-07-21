@@ -1,6 +1,6 @@
 from django.urls import path
-from .views import api_protected
+from . import views
 
 urlpatterns = [
-    path('api/protected/', api_protected, name='api_protected'),
+    path('api_protected/', views.protected_view, name='api_protected'),
 ]

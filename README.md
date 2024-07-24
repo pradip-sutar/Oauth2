@@ -19,7 +19,7 @@ python manage.py runserver
 
 
 # for generate the access_token and refresh_token
- In Postman body provide these.
+ In Postman body provide these. and send the request http://localhost:8000/o/token/
 {
     "grant_type": "password",
     "username": "your_username",
